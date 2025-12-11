@@ -1,6 +1,6 @@
 # FINDATA
 
-**FINDATA** is a cross-platform desktop application that lets you search companies and instantly download their full financial statements — including revenue, net income, EPS, assets, liabilities, cash flow, and financial ratios — all exported directly to Excel.
+**FINDATA** is a cross-platform desktop application that lets you search companies and instantly download their full financial statements - including revenue, net income, EPS, assets, liabilities, cash flow, and financial ratios / all exported directly to Excel.
 
 ---
 
