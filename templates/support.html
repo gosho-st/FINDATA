@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support FINDATA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            background: #0a0a0a;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Apple-style animated gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 20%, rgba(78, 154, 241, 0.25) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 60% at 60% 80%, rgba(162, 89, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 40% at 30% 70%, rgba(56, 189, 248, 0.15) 0%, transparent 50%);
+            z-index: 0;
+            animation: gradientShift 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1) rotate(1deg);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(1) rotate(-1deg);
+                opacity: 1;
+            }
+        }
+
+        /* Subtle grain texture overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 35px 45px;
+            margin-bottom: 30px;
+            box-shadow: 
+                0 4px 24px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #ffffff;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .header h1 .star {
+            font-size: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.15); opacity: 0.85; }
+        }
+
+        .header .subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .header .subtitle .highlight {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateX(-3px);
+        }
+
+        /* Crypto Cards Container */
+        .crypto-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-top: 10px;
+        }
+
+        /* Card Base Styles - Apple Glass Effect */
+        .crypto-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 4px 24px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .crypto-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        /* BTC Card */
+        .crypto-card.btc {
+            border-color: rgba(247, 147, 26, 0.3);
+        }
+
+        .crypto-card.btc:hover {
+            border-color: rgba(247, 147, 26, 0.5);
+            box-shadow: 
+                0 12px 40px rgba(247, 147, 26, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        /* ETH Card */
+        .crypto-card.eth {
+            border-color: rgba(98, 126, 234, 0.3);
+        }
+
+        .crypto-card.eth:hover {
+            border-color: rgba(98, 126, 234, 0.5);
+            box-shadow: 
+                0 12px 40px rgba(98, 126, 234, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        /* SOL Card */
+        .crypto-card.sol {
+            border-color: rgba(153, 69, 255, 0.3);
+        }
+
+        .crypto-card.sol:hover {
+            border-color: rgba(153, 69, 255, 0.5);
+            box-shadow: 
+                0 12px 40px rgba(153, 69, 255, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        .crypto-logo {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 15px;
+        }
+
+        .crypto-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: -0.01em;
+        }
+
+        .crypto-card.btc .crypto-name {
+            background: linear-gradient(135deg, #f7931a 0%, #ffb347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .crypto-card.eth .crypto-name {
+            background: linear-gradient(135deg, #627eea 0%, #a4b8f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .crypto-card.sol .crypto-name {
+            background: linear-gradient(135deg, #9945ff 0%, #14f195 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .crypto-full-name {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .qr-container {
+            background: white;
+            border-radius: 16px;
+            padding: 15px;
+            display: inline-block;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .qr-code {
+            width: 180px;
+            height: 180px;
+            display: block;
+        }
+
+        .address-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+        }
+
+        .address {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 15px;
+            border-radius: 10px;
+            word-break: break-all;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .address:hover {
+            background: rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .address:active {
+            transform: scale(0.98);
+        }
+
+        .copy-tooltip {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(52, 211, 153, 0.95);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .address.copied .copy-tooltip {
+            opacity: 1;
+        }
+
+        /* Pay Button */
+        .pay-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .crypto-card.btc .pay-btn {
+            background: linear-gradient(135deg, #f7931a 0%, #e88a17 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(247, 147, 26, 0.4);
+        }
+
+        .crypto-card.btc .pay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(247, 147, 26, 0.5);
+        }
+
+        .crypto-card.eth .pay-btn {
+            background: linear-gradient(135deg, #627eea 0%, #5770d6 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(98, 126, 234, 0.4);
+        }
+
+        .crypto-card.eth .pay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(98, 126, 234, 0.5);
+        }
+
+        .crypto-card.sol .pay-btn {
+            background: linear-gradient(135deg, #9945ff 0%, #14f195 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.4);
+        }
+
+        .crypto-card.sol .pay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(153, 69, 255, 0.5);
+        }
+
+        .trust-wallet-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Fade in animation */
+        .fade-in {
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .crypto-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .qr-code {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back Button -->
+        <a href="/" class="back-btn fade-in">
+            ← Back to FINDATA
+        </a>
+
+        <!-- Header -->
+        <header class="header fade-in">
+            <h1>
+                <span class="star">⭐</span>
+                Support This Project
+                <span class="star">⭐</span>
+            </h1>
+            <p class="subtitle">
+                If you find <span class="highlight">FINDATA</span> useful, consider supporting its development.
+            </p>
+        </header>
+
+        <!-- Crypto Cards -->
+        <div class="crypto-cards">
+            <!-- Bitcoin Card -->
+            <div class="crypto-card btc fade-in" style="animation-delay: 0.1s">
+                <svg class="crypto-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="16" fill="#F7931A"/>
+                    <path d="M22.5 14.1c.3-2-1.2-3.1-3.4-3.8l.7-2.8-1.7-.4-.7 2.7c-.4-.1-.9-.2-1.4-.3l.7-2.8-1.7-.4-.7 2.8c-.4-.1-.7-.2-1.1-.2l-2.3-.6-.4 1.8s1.2.3 1.2.3c.7.2.8.6.8 1l-2 7.9c-.1.2-.3.6-.8.4 0 0-1.2-.3-1.2-.3l-.8 1.9 2.2.5c.4.1.8.2 1.2.3l-.7 2.9 1.7.4.7-2.8c.5.1.9.2 1.4.3l-.7 2.8 1.7.4.7-2.8c2.8.5 5 .3 5.9-2.2.7-2-.1-3.2-1.5-4 1.1-.3 1.9-1 2.1-2.5zm-3.8 5.3c-.5 2-4 .9-5.1.7l.9-3.7c1.1.3 4.7.8 4.2 3zm.5-5.3c-.5 1.8-3.4.9-4.3.7l.8-3.3c1 .2 4 .7 3.5 2.6z" fill="white"/>
+                </svg>
+                <h2 class="crypto-name">BTC</h2>
+                <p class="crypto-full-name">Bitcoin</p>
+                
+                <div class="qr-container">
+                    <img src="/static/BTC.png" alt="Bitcoin QR Code" class="qr-code">
+                </div>
+                
+                <div class="address-label">Wallet Address</div>
+                <div class="address" onclick="copyAddress(this, 'bc1qj6qygdnkyuwva96t3snr8rksp4w29qh9xm609c')">
+                    bc1qj6qygdnkyuwva96t3snr8rksp4w29qh9xm609c
+                    <span class="copy-tooltip">Copied!</span>
+                </div>
+                
+                <a href="https://link.trustwallet.com/send?address=bc1qj6qygdnkyuwva96t3snr8rksp4w29qh9xm609c&asset=c0" target="_blank" class="pay-btn">
+                    <svg class="trust-wallet-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                    </svg>
+                    Pay via Trust Wallet
+                </a>
+            </div>
+
+            <!-- Ethereum Card -->
+            <div class="crypto-card eth fade-in" style="animation-delay: 0.2s">
+                <svg class="crypto-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="16" fill="#627EEA"/>
+                    <path d="M16 4v8.87l7.5 3.35L16 4z" fill="white" fill-opacity="0.6"/>
+                    <path d="M16 4L8.5 16.22 16 12.87V4z" fill="white"/>
+                    <path d="M16 21.97v6.03l7.5-10.38L16 21.97z" fill="white" fill-opacity="0.6"/>
+                    <path d="M16 28v-6.03l-7.5-4.35L16 28z" fill="white"/>
+                    <path d="M16 20.57l7.5-4.35L16 12.87v7.7z" fill="white" fill-opacity="0.2"/>
+                    <path d="M8.5 16.22l7.5 4.35v-7.7l-7.5 3.35z" fill="white" fill-opacity="0.6"/>
+                </svg>
+                <h2 class="crypto-name">ETH</h2>
+                <p class="crypto-full-name">Ethereum</p>
+                
+                <div class="qr-container">
+                    <img src="/static/ETH.png" alt="Ethereum QR Code" class="qr-code">
+                </div>
+                
+                <div class="address-label">Wallet Address</div>
+                <div class="address" onclick="copyAddress(this, '0x2c74246E17d854f8F318A7E001CF1D9F3266bfFC')">
+                    0x2c74246E17d854f8F318A7E001CF1D9F3266bfFC
+                    <span class="copy-tooltip">Copied!</span>
+                </div>
+                
+                <a href="https://link.trustwallet.com/send?asset=c60&address=0x2c74246E17d854f8F318A7E001CF1D9F3266bfFC" target="_blank" class="pay-btn">
+                    <svg class="trust-wallet-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                    </svg>
+                    Pay via Trust Wallet
+                </a>
+            </div>
+
+            <!-- Solana Card -->
+            <div class="crypto-card sol fade-in" style="animation-delay: 0.3s">
+                <svg class="crypto-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="16" fill="url(#solGradient)"/>
+                    <defs>
+                        <linearGradient id="solGradient" x1="0" y1="0" x2="32" y2="32">
+                            <stop offset="0%" stop-color="#9945FF"/>
+                            <stop offset="100%" stop-color="#14F195"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M9.5 19.1c.1-.1.3-.2.4-.2h12.7c.3 0 .4.3.2.5l-2.2 2.2c-.1.1-.3.2-.4.2H7.5c-.3 0-.4-.3-.2-.5l2.2-2.2z" fill="white"/>
+                    <path d="M9.5 10.4c.1-.1.3-.2.4-.2h12.7c.3 0 .4.3.2.5l-2.2 2.2c-.1.1-.3.2-.4.2H7.5c-.3 0-.4-.3-.2-.5l2.2-2.2z" fill="white"/>
+                    <path d="M22.5 14.7c-.1-.1-.3-.2-.4-.2H9.4c-.3 0-.4.3-.2.5l2.2 2.2c.1.1.3.2.4.2h12.7c.3 0 .4-.3.2-.5l-2.2-2.2z" fill="white"/>
+                </svg>
+                <h2 class="crypto-name">SOL</h2>
+                <p class="crypto-full-name">Solana</p>
+                
+                <div class="qr-container">
+                    <img src="/static/SOL.png" alt="Solana QR Code" class="qr-code">
+                </div>
+                
+                <div class="address-label">Wallet Address</div>
+                <div class="address" onclick="copyAddress(this, '5v5gusJvUbkJ3tr6MAPrBAJcy3aZubXkvF9wPxFkMz6b')">
+                    5v5gusJvUbkJ3tr6MAPrBAJcy3aZubXkvF9wPxFkMz6b
+                    <span class="copy-tooltip">Copied!</span>
+                </div>
+                
+                <a href="https://link.trustwallet.com/send?asset=c501&address=5v5gusJvUbkJ3tr6MAPrBAJcy3aZubXkvF9wPxFkMz6b" target="_blank" class="pay-btn">
+                    <svg class="trust-wallet-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                    </svg>
+                    Pay via Trust Wallet
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyAddress(element, address) {
+            navigator.clipboard.writeText(address).then(() => {
+                element.classList.add('copied');
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+    </script>
+</body>
+</html>
